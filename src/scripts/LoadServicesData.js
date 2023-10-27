@@ -32,3 +32,28 @@ servicesData.forEach(function(services){
 
 
 
+
+
+
+
+
+
+
+// lambda functions for all tables created AWS lambda V3
+
+// import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+
+// const dynamodb = new DynamoDBClient({ region: 'us-east-1' });
+
+// export const handler = async (event, context) => {
+//   const params = {
+//     TableName: "Services"
+//   };
+
+//   try {
+//     const data = await dynamodb.send(new ScanCommand(params));
+//     return data.Items;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
