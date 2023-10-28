@@ -1,11 +1,44 @@
-import accessibilityData from './Data/accessibilities.json';
-import servicesData from './Data/services.json';
+import {useState, useEffect} from 'react';
+
+// import accessibilityData from './Data/accessibilities.json';
+// import servicesData from './Data/services.json';
+
+interface servicesData {
+    description: {S : string};
+}
+
+interface accessibiltyData {
+    description: {S : string};
+}
+
 
 export const SuiteInfo = () => {
+    const [servicesData, setServicesData] = useState<servicesData[]>([]);
+    const [accessibilityData, setAccessibilityData] = useState<accessibiltyData[]>([]);
+
+    const loadAccessiblityData = async() =>{
+        const rep = await fetch ("https://c4vxtaypec.execute-api.us-east-1.amazonaws.com/Production/accessibility")
+        let jsonData = await rep.json()
+
+        setAccessibilityData(jsonData);
+    }
+
+    const loadServicesData = async() =>{
+        const rep = await fetch ("https://c4vxtaypec.execute-api.us-east-1.amazonaws.com/Production/services")
+        let jsonData = await rep.json()
+
+        setServicesData(jsonData);
+    }
+
+
+    useEffect(()=>{
+        loadAccessiblityData();
+        loadServicesData();
+    },[])
     return(
       <div className="scene" id="suiteinfo">
         <article className="heading">
-            <h1>Essential Info</h1>
+            <h1>Essential Information</h1>
         </article>
         <article id="usefulinfo">
             <section id="arrivalinfo">
@@ -23,24 +56,25 @@ export const SuiteInfo = () => {
                 <h2>Services and Amenities</h2>
                 <p>Our services and amenities are designed to make your travel easy, your stay comfortable, and your experience one-of-a-kind.</p>
                 <ul>
-                    {servicesData.map((service)=>
-                        <li>{service.description}</li>
-                    )}
+                    {servicesData.map((service, index)=>(
+                        <li key ={index}>{service.description.S}</li>
+                    ))}
                 </ul>
             </section>
             <section className="checklist" id="accessibility">
                 <h2>Accessibility</h2>
                 <p>We're committed to maintaining the same quality of service for every individual. We offer the following facilities for those with special needs:</p>
                 <ul>
-                    {accessibilityData.map((accessibility)=>
-                        <li>{accessibility.description}</li>
-                    )}
+                    {accessibilityData.map((accessibility, index)=>(
+                        <li key={index}>{accessibility.description.S}</li>
+                    ))}
                 </ul>
             </section>
         </article>
         <article id="greenprogram">
-            <h2>Landon Green Program</h2>
-            <p><strong>The Landon Hotel - London</strong> was recently renovated, and we considered the impact on the earth the entire way. From green building materials, to solar power, to energy-friendly lighting and appliances throughout the hotel - we’re saving energy in every socket, outlet, and switch. We’ve also initiated a recycling and composting program that reduces the load to local landfills, while providing valuable raw material for use in new products, or in the case of compost, for use in local gardens and landscapes.</p>
+            <h2>Uganda Green Program</h2>
+            <p>Uganda Suites, we recently completed a comprehensive renovation project with a strong focus on environmental sustainability. Our commitment to the planet is reflected in every aspect of our future developments.Uganda Suites is proud to have used eco-friendly building materials during our renovation, ensuring that our upgrades are aligned with nature's best practices.
+            </p>
       </article>
     </div>
     );
